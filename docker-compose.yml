@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+
+  # DO NOT USE IN PRODUCTION
+  proxy:
+    container_name: traefik
+    image: traefik:brie # the brie tag refers to v2.4
+    restart: unless-stopped
+    environment:
+      - TRAEFIK_GLOBAL_CHECKNEWVERSION=true
+      - TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE=false
+      - TRAEFIK_ENTRYPOINTS_HTTP_ADDRESS=:80
+      - TRAEFIK_ENTRYPOINTS_TREAFIK_ADDRESS=:8080
+      - TRAEFIK_API=true
+      - TRAEFIK_LOG=true
+      - TRAEFIK_LOG_LEVEL=INFO
+      - TRAEFIK_LOG_FORMAT=json
+      - TRAEFIK_ACCESSLOG=true
+      - TRAEFIK_ACCESSLOG_BUFFERINGSIZE=100
+      - TRAEFIK_ACCESSLOG_FILEPATH=/var/log/traefik_access.log
+      - TRAEFIK_ACCESSLOG_FILTERS_STATUSCODES=400-499
+      - TRAEFIK_PROVIDERS_DOCKER=true
+      - TRAEFIK_PROVIDERS_DOCKER_ENDPOINT=unix:///var/run/docker.sock
+      - TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT=false
+      - TRAEFIK_PROVIDERS_DOCKER_NETWORK=local-dev
+      - TRAEFIK_PROVIDERS_DOCKER_SWARMMODE=false
+    networks:
+      - local-dev
+    ports:
+      - 80:80
+      - 8080:8080
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 8080
+        published: 8888
+        protocol: tcp
+        mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  local-dev:
