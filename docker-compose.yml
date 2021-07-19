@@ -6,24 +6,23 @@ services:
     container_name: traefik
     image: traefik:brie # the brie tag refers to v2.4
     restart: unless-stopped
-    environment:
-      - TRAEFIK_GLOBAL_CHECKNEWVERSION=true
-      - TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE=false
-      - TRAEFIK_ENTRYPOINTS_HTTP_ADDRESS=:80
-      - TRAEFIK_ENTRYPOINTS_TREAFIK_ADDRESS=:8080
-      - TRAEFIK_API=true
-      - TRAEFIK_LOG=true
-      - TRAEFIK_LOG_LEVEL=INFO
-      - TRAEFIK_LOG_FORMAT=json
-      - TRAEFIK_ACCESSLOG=true
-      - TRAEFIK_ACCESSLOG_BUFFERINGSIZE=100
-      - TRAEFIK_ACCESSLOG_FILEPATH=/var/log/traefik_access.log
-      - TRAEFIK_ACCESSLOG_FILTERS_STATUSCODES=400-499
-      - TRAEFIK_PROVIDERS_DOCKER=true
-      - TRAEFIK_PROVIDERS_DOCKER_ENDPOINT=unix:///var/run/docker.sock
-      - TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT=false
-      - TRAEFIK_PROVIDERS_DOCKER_NETWORK=local-dev
-      - TRAEFIK_PROVIDERS_DOCKER_SWARMMODE=false
+    command:
+      - --global.checkNewVersion=true
+      - --global.sendAnonymousUsage=false
+      - --entryPoints.http.address=:80
+      - --entryPoints.traefik.address=:8080
+      - --api=true
+      - --log=true
+      - --log.level=INFO
+      - --accessLog=true
+      - --accessLog.filePath=/var/log/traefik_access.log
+      - --accessLog.bufferingSize=100
+      - --accessLog.filters.statusCodes=400-499
+      - --providers.docker=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.network=local-dev
+      - --providers.docker.swarmMode=false
     networks:
       - local-dev
     ports:
