@@ -1,7 +1,7 @@
 version: "3.9"
 services:
 
-  # DO NOT USE IN PRODUCTION
+  # DO NOT USE IN PRODUCTION DUE TO EXPOSED SOCKET IN THE CONTAINER
   proxy:
     container_name: traefik
     image: traefik:brie # the brie tag refers to v2.4
