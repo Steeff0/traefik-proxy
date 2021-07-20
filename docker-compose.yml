@@ -16,6 +16,7 @@ services:
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=false
       - --entrypoints.http.address=:80
+      - --entrypoints.traefik.address=:8080
       - --entryPoints.ping.address=:8082
       - --api=true
       - --api.insecure=true
