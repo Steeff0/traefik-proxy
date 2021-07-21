@@ -4,7 +4,7 @@ services:
   # DO NOT USE IN PRODUCTION DUE TO EXPOSED SOCKET IN THE CONTAINER
   proxy:
     container_name: traefik
-    image: traefik:brie # the brie tag refers to v2.4
+    image: traefik:brie # the brie tag refers to v2.5
     restart: unless-stopped
     healthcheck:
       test: traefik healthcheck --ping --entrypoints.ping.address=:8082
@@ -45,8 +45,8 @@ services:
       traefik.http.routers.api.service: "api@internal"
 
   whoami:
-    image: "nginx:alpine"
-    container_name: "simple-service"
+    image: "traefik/whoami"
+    container_name: "whoami-service"
     networks:
       - local-dev
     labels:
